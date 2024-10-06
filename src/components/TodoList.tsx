@@ -1,10 +1,12 @@
 import React from "react";
 import TodoItem from "./TodoItem.tsx";
+import TasksCriteria from "./TasksCriteria.tsx";
 
 const TodoList: React.FC = () => {
   const [text, setText] = React.useState("");
   const [tasks, setTasks] = React.useState([]);
   const [isAdded, setIsAdded] = React.useState(false);
+  const [activeBtn, setActiveBtn] = React.useState(1);
 
   const addTask = (task: string) => {
     if (text.trim() === "") return;
@@ -49,22 +51,29 @@ const TodoList: React.FC = () => {
     >
       <div className="flex w-1/2 flex-col gap-5">
         <input
-          className="p-5 bg-white border border-gray-500 rounded-xl outline-none"
+          className="p-5 bg-white border border-gray-400 rounded-xl outline-none"
           placeholder="What needs to be done?"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
         {isAdded && (
           <div className="flex flex-col rounded-xl items-start bg-black p-5 gap-6">
-            <h2 className="font-bold text-white">Current Tasks</h2>
-            {tasks.map((task) => (
-              <TodoItem
-                task={task}
-                toggleFinished={toggleFinished}
-                editTask={editTask}
-                deleteTask={deleteTask}
-              />
-            ))}
+            <TasksCriteria activeBtn={activeBtn} setActiveBtn={setActiveBtn} />
+            {tasks
+              .filter((task) => {
+                if (activeBtn === 1) return true;
+                if (activeBtn === 2) return !task.finished;
+                if (activeBtn === 3) return task.finished;
+                return false;
+              })
+              .map((task) => (
+                <TodoItem
+                  task={task}
+                  toggleFinished={toggleFinished}
+                  editTask={editTask}
+                  deleteTask={deleteTask}
+                />
+              ))}
           </div>
         )}
       </div>
