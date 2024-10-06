@@ -66,8 +66,9 @@ const TodoList: React.FC = () => {
                 if (activeBtn === 3) return task.finished;
                 return false;
               })
-              .map((task) => (
+              .map((task, index) => (
                 <TodoItem
+                  key={index}
                   task={task}
                   toggleFinished={toggleFinished}
                   editTask={editTask}
