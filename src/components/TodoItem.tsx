@@ -1,25 +1,22 @@
-import React, { ChangeEvent } from "react";
+import React, { ElementRef } from "react";
 import { FaCheck } from "react-icons/fa6";
 import { MdDelete, MdEdit } from "react-icons/md";
-
-interface Task {
-  id: number;
-  task: string;
-  finished: boolean;
-}
+import { TODO } from "../types/type.ts";
 
 const TodoItem: React.FC<{
-  task: Task;
+  task: TODO;
   toggleFinished: (id: number) => void;
-  editTask: (id: number, e: ChangeEvent<HTMLInputElement>) => void;
+  editTask: (id: number, newTask: string) => void;
   deleteTask: (id: number) => void;
 }> = ({ task, toggleFinished, editTask, deleteTask }) => {
   const [isEdited, setIsEdited] = React.useState<number | null>(null);
-  const ref = React.useRef(null);
+  const ref = React.useRef<ElementRef<"input">>(null);
 
   const toggleEdit = (id: number) => {
     setIsEdited(id);
-    ref.current.focus();
+    if (ref.current) {
+      ref.current.focus();
+    }
   };
 
   return (
@@ -37,7 +34,7 @@ const TodoItem: React.FC<{
           ref={isEdited === task.id ? ref : null}
           disabled={isEdited !== task.id}
           value={task.task}
-          onChange={(e) => editTask(task.id, e)}
+          onChange={(e) => editTask(task.id, e.target.value)}
           className={`w-full py-3 px-4 ${task.finished ? "text-[#FF0000] line-through" : "text-white"}`}
         />
       </div>

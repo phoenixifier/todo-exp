@@ -1,10 +1,11 @@
 import React from "react";
-import TodoItem from "./TodoItem.tsx";
+import { TODO } from "../types/type.ts";
 import TasksCriteria from "./TasksCriteria.tsx";
+import TodoItem from "./TodoItem.tsx";
 
 const TodoList: React.FC = () => {
   const [text, setText] = React.useState("");
-  const [tasks, setTasks] = React.useState([]);
+  const [tasks, setTasks] = React.useState<TODO[]>([]);
   const [isAdded, setIsAdded] = React.useState(false);
   const [activeBtn, setActiveBtn] = React.useState(1);
 
@@ -34,10 +35,16 @@ const TodoList: React.FC = () => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  const editTask = (id: number, e) => {
+  const editTask = (id: number, newTask: string) => {
     setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, task: e.target.value } : task,
+      tasks.map((task) => (task.id === id ? { ...task, task: newTask } : task)),
+    );
+  };
+
+  const clearFinished = () => {
+    setTasks(
+      tasks.filter(
+        (task) => !task.finished && { ...task, task: task.finished },
       ),
     );
   };
@@ -75,6 +82,14 @@ const TodoList: React.FC = () => {
                   deleteTask={deleteTask}
                 />
               ))}
+            <div className="flex w-full text-white justify-between">
+              <div>
+                {tasks.filter((task) => !task.finished).length} items left
+              </div>
+              <button onClick={clearFinished} className="hover:underline">
+                Clear finished
+              </button>
+            </div>
           </div>
         )}
       </div>
