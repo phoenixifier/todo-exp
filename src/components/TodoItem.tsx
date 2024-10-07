@@ -1,23 +1,20 @@
-import React, { ElementRef } from "react";
+import React from "react";
 import { FaCheck } from "react-icons/fa6";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { useTaskStore } from "../stores/store.ts";
 import { TODO } from "../types/type.ts";
 
 const TodoItem: React.FC<{
   task: TODO;
-  toggleFinished: (id: number) => void;
-  editTask: (id: number, newTask: string) => void;
-  deleteTask: (id: number) => void;
-}> = ({ task, toggleFinished, editTask, deleteTask }) => {
-  const [isEdited, setIsEdited] = React.useState<number | null>(null);
-  const ref = React.useRef<ElementRef<"input">>(null);
-
-  const toggleEdit = (id: number) => {
-    setIsEdited(id);
-    if (ref.current) {
-      ref.current.focus();
-    }
-  };
+}> = ({ task }) => {
+  const {
+    editedTask,
+    toggleFinished,
+    toggleEdit,
+    editTask,
+    deleteTask,
+    inputRef: ref,
+  } = useTaskStore();
 
   return (
     <div className="flex w-full justify-between gap-4">
@@ -31,8 +28,8 @@ const TodoItem: React.FC<{
           {task.finished && <FaCheck color="#FF0000" size={20} />}
         </button>
         <input
-          ref={isEdited === task.id ? ref : null}
-          disabled={isEdited !== task.id}
+          ref={editedTask === task.id ? ref : null}
+          disabled={editedTask !== task.id}
           value={task.task}
           onChange={(e) => editTask(task.id, e.target.value)}
           className={`w-full py-3 px-4 ${task.finished ? "text-[#FF0000] line-through" : "text-white"}`}

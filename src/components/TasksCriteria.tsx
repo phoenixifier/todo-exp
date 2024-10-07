@@ -1,4 +1,5 @@
 import React from "react";
+import { useTaskStore } from "../stores/store.ts";
 
 const tasksBtns = [
   { id: 1, title: "All Tasks" },
@@ -6,10 +7,8 @@ const tasksBtns = [
   { id: 3, title: "Finished Tasks" },
 ];
 
-const TasksCriteria: React.FC<{
-  activeBtn: number;
-  setActiveBtn: (index: number) => void;
-}> = ({ activeBtn, setActiveBtn }) => {
+const TasksCriteria: React.FC = () => {
+  const { activeBtn, updateActiveBtn: setActiveBtn } = useTaskStore();
   return (
     <div className="flex w-full items-center justify-between text-white text-sm">
       {tasksBtns.map((button, index) => (
