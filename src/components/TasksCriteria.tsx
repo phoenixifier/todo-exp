@@ -1,5 +1,6 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { useTaskStore } from "../stores/store.ts";
+import todo from "../stores/store-mobx.ts";
 
 const tasksBtns = [
   { id: 1, title: "All Tasks" },
@@ -7,17 +8,16 @@ const tasksBtns = [
   { id: 3, title: "Finished Tasks" },
 ];
 
-const TasksCriteria: React.FC = () => {
-  const { activeBtn, updateActiveBtn: setActiveBtn } = useTaskStore();
+const TasksCriteria: React.FC = observer(() => {
   return (
     <div className="flex w-full items-center justify-between text-white text-sm">
       {tasksBtns.map((button, index) => (
         <button
-          onClick={() => setActiveBtn(index + 1)}
+          onClick={() => todo.setActiveBtn(index + 1)}
           key={button.id}
           className={`w-full
                     ${
-                      index + 1 === activeBtn
+                      index + 1 === todo.activeBtn
                         ? "bg-white text-black p-5 rounded-xl font-semibold"
                         : "text-white"
                     }
@@ -28,6 +28,6 @@ const TasksCriteria: React.FC = () => {
       ))}
     </div>
   );
-};
+});
 
 export default TasksCriteria;

@@ -59,8 +59,10 @@ export const useTaskStore = create<State & Action>((set, get) => ({
     set({ tasks: updatedTasks });
   },
   toggleEdit: (id) => {
-    const { inputRef, updateEditedTask } = get();
-    updateEditedTask(id);
+    const { inputRef } = get();
+    set({
+      editedTask: id,
+    });
     if (inputRef.current) {
       inputRef.current.focus();
     }
