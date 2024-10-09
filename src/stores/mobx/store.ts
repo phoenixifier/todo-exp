@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import React from "react";
-import { TODO } from "../types/type.ts";
+import { TODO } from "../../types/type.ts";
 
 class Todo {
   text: string = "";

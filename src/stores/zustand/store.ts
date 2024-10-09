@@ -1,6 +1,6 @@
 import React from "react";
 import { create } from "zustand";
-import { TODO } from "../types/type.ts";
+import { TODO } from "../../types/type.ts";
 
 type State = {
   text: string;
