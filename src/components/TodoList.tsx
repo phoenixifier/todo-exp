@@ -12,6 +12,12 @@ import TodoItem from "./TodoItem.tsx";
 const TodoList: React.FC = () => {
   const { text, tasks, isAdded, activeBtn } = useAppSelector(selectTodo);
   const dispatch = useAppDispatch();
+  const [localText, setLocalText] = React.useState("");
+
+  const handleBlur = () => {
+    dispatch(setText(localText));
+  };
+
   return (
     <form
       onSubmit={(e) => {
@@ -23,8 +29,9 @@ const TodoList: React.FC = () => {
         <input
           className="p-5 bg-white border border-gray-400 rounded-xl outline-none"
           placeholder="What needs to be done?"
-          value={text}
-          onChange={(e) => dispatch(setText(e.target.value))}
+          value={localText}
+          onChange={(e) => setLocalText(e.target.value)}
+          onBlur={handleBlur}
         />
         {isAdded && (
           <div className="flex flex-col rounded-xl items-start bg-black p-5 gap-6">

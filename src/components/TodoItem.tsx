@@ -25,6 +25,15 @@ const TodoItem: React.FC<{
     }
   }, [isEditing]);
 
+  const [localEdit, setLocalEdit] = React.useState({
+    id: 0,
+    newTask: task.task,
+  });
+
+  const handleEditBlur = () => {
+    dispatch(editTask({ id: localEdit.id, newTask: localEdit.newTask }));
+  };
+
   return (
     <div className="flex w-full justify-between gap-4">
       <div className="flex w-full items-center gap-2" key={task.id}>
@@ -40,10 +49,11 @@ const TodoItem: React.FC<{
           type="text"
           ref={inputRef}
           disabled={!isEditing}
-          value={task.task}
+          value={localEdit.newTask}
           onChange={(e) =>
-            dispatch(editTask({ id: task.id, newTask: e.target.value }))
+            setLocalEdit({ id: task.id, newTask: e.target.value })
           }
+          onBlur={handleEditBlur}
           className={`w-full py-3 px-4 ${task.finished ? "text-[#FF0000] line-through" : "text-white"}`}
         />
       </div>
