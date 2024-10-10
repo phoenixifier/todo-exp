@@ -16,6 +16,7 @@ const TodoList: React.FC = () => {
 
   const handleBlur = () => {
     dispatch(setText(localText));
+    setLocalText("");
   };
 
   return (
