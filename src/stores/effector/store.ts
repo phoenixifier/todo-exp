@@ -25,7 +25,6 @@ export const editTask = createEvent<{ id: number; newTask: string }>();
 export const clearFinished = createEvent<void>();
 
 $input.on(onInputChange, (_, value) => value);
-$isAdded.on(addTodo, (state) => state);
 $editedTask.on(toggleEdit, (_, id) => id);
 $activeBtn.on(onActiveBtnChange, (_, value) => value);
 
@@ -38,6 +37,8 @@ $tasks.on(addTodo, (tasks, task) => {
   };
   return [...tasks, newTask];
 });
+$isAdded.on(addTodo, (_) => true);
+$input.on(addTodo, (_) => "");
 
 $tasks.on(deleteTask, (tasks, id) => {
   return tasks.filter((task) => task.id !== id);
