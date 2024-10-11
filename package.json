@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.8",
+    "effector": "^23.2.3",
+    "effector-react": "^23.2.1",
     "mobx": "^6.13.3",
     "mobx-react-lite": "^4.0.7",
     "react": "^18.3.1",

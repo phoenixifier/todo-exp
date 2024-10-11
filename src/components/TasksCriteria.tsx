@@ -1,6 +1,6 @@
+import { useUnit } from "effector-react/effector-react.umd";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../stores/redux/hooks.ts";
-import { selectTodo, setActiveBtn } from "../stores/redux/todo/todoSlice.ts";
+import { $activeBtn, onActiveBtnChange } from "../stores/effector/store.ts";
 
 const tasksBtns = [
   { id: 1, title: "All Tasks" },
@@ -9,13 +9,12 @@ const tasksBtns = [
 ];
 
 const TasksCriteria: React.FC = () => {
-  const { activeBtn } = useAppSelector(selectTodo);
-  const dispatch = useAppDispatch();
+  const [activeBtn, setActiveBtn] = useUnit([$activeBtn, onActiveBtnChange]);
   return (
     <div className="flex w-full items-center justify-between text-white text-sm">
       {tasksBtns.map((button, index) => (
         <button
-          onClick={() => dispatch(setActiveBtn(index + 1))}
+          onClick={() => setActiveBtn(index + 1)}
           key={button.id}
           className={`w-full
                     ${
